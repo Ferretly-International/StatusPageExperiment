@@ -31,11 +31,19 @@ using var serviceProvider = new ServiceCollection()
     .AddSingleton<IConfiguration>(config)
     .AddHttpClient()
     // TODO - add services
+    .AddSingleton<IHttpClientService, HttpClientService>()
     .AddSingleton<IIncidentsService, IncidentsService>()
     .BuildServiceProvider();
 
 // get the built IIncidentsService
 var incidentsService = serviceProvider.GetService<IIncidentsService>();
-var activeIncidents = incidentsService?.GetActiveIncidents();
+if (incidentsService == null)
+{
+    Console.WriteLine("Failed to get IIncidentsService");
+    return;
+}
+
+// get active incidents
+var activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 
 Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0);
