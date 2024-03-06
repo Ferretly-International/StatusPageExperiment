@@ -1,5 +1,9 @@
-﻿using System.Text.Encodings.Web;
+﻿using System.Net;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using StatusPageLibrary.Models;
 
@@ -21,6 +25,13 @@ public interface IIncidentsService
     /// <param name="page">Page offset to fetch</param>
     /// <returns></returns>
     Task<List<Incident>> GetIncidentHistoryAsync(string? query = null, int limit = 100, int page = 1);
+    
+    /// <summary>
+    /// Update an existing incident
+    /// </summary>
+    /// <param name="incident"></param>
+    /// <returns></returns>
+    Task<HttpStatusCode> UpdateIncidentAsync(PatchIncident incident);
 }
 
 /// <summary>
@@ -72,9 +83,30 @@ public class IncidentsService: IIncidentsService
         var content = await result.Content.ReadAsStringAsync();
         var incidents = JsonSerializer.Deserialize<List<Incident>>(content, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         });
         
         return incidents ?? new List<Incident>();
+    }
+
+    /// <inheritdoc />
+    public async Task<HttpStatusCode> UpdateIncidentAsync(PatchIncident incident)
+    {
+        var url = $"pages/{_configuration["StatusPage:PageId"]}/incidents/{incident.Id}";
+        using var client = _httpClientService.GetClient();
+
+        var patchIncident = new PatchIncidentRequest {Incident = incident};
+        
+        var serialized = JsonSerializer.Serialize(patchIncident, new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        });
+        
+        var result = await client.PatchAsync(url, new StringContent(serialized, Encoding.UTF8, "application/json"));
+
+        return result.StatusCode;
     }
 }

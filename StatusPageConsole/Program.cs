@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using StatusPageLibrary.Models;
 using StatusPageLibrary.Services;
 
 Console.WriteLine("Hello, World!");
@@ -52,3 +53,26 @@ Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0)
 var incidentHistory = await incidentsService.GetIncidentHistoryAsync(); 
 Console.WriteLine("There are {0} incidents in history", incidentHistory?.Count ?? 0);
 incidentHistory?.ForEach(incident => Console.WriteLine(incident.Name));
+
+// update the first active incident
+var firstActiveIncident = activeIncidents?.FirstOrDefault();
+if (firstActiveIncident != null)
+{
+    Console.WriteLine("Updating incident {0}", firstActiveIncident.Id);
+
+    var patchIncident = new PatchIncident
+    {
+        Id = firstActiveIncident.Id,
+        Status = Incident.StatusEnum.investigating,
+        ImpactOverride = firstActiveIncident.ImpactOverride,
+    };
+
+    firstActiveIncident.Components.ForEach(component =>
+    {
+        patchIncident.Components[component.Id] = Component.StatusEnum.partial_outage.ToString();    
+    });
+    
+    
+    var result = await incidentsService.UpdateIncidentAsync(patchIncident);
+    Console.WriteLine("Update result: {0}", result);
+}

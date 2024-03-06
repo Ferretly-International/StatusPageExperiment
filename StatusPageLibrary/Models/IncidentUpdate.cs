@@ -16,7 +16,7 @@ using System.Text.Json.Serialization;
 namespace StatusPageLibrary.Models
 { 
     /// <summary>
-    /// Update a previous incident update
+    /// Information about an incident's updates. <see cref="Incident"/>
     /// </summary>
     [DataContract]
     public class IncidentUpdate
