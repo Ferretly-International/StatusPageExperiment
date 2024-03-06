@@ -6,9 +6,16 @@ namespace StatusPageLibrary.Services;
 
 public interface IIncidentsService
 {
+    /// <summary>
+    /// Fetch a list of active incidents
+    /// </summary>
+    /// <returns></returns>
     Task<List<Incident>> GetActiveIncidentsAsync();
 }
 
+/// <summary>
+/// Service used for querying, adding, and acting on incidents
+/// </summary>
 public class IncidentsService: IIncidentsService
 {
     private readonly IHttpClientService _httpClientService;
@@ -20,7 +27,7 @@ public class IncidentsService: IIncidentsService
         _configuration = configuration;
     }
 
-    
+    /// <inheritdoc />
     public async Task<List<Incident>> GetActiveIncidentsAsync()
     {
         var client = _httpClientService.GetClient();
