@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusPageLibrary", "StatusPageLibrary\StatusPageLibrary.csproj", "{5E0CE8F6-7E3E-4E00-89C0-2DFFD6134E2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusPageConsole", "StatusPageConsole\StatusPageConsole.csproj", "{B45304E5-35A3-4F62-8728-AD3F5A04C152}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E0CE8F6-7E3E-4E00-89C0-2DFFD6134E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E0CE8F6-7E3E-4E00-89C0-2DFFD6134E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E0CE8F6-7E3E-4E00-89C0-2DFFD6134E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E0CE8F6-7E3E-4E00-89C0-2DFFD6134E2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45304E5-35A3-4F62-8728-AD3F5A04C152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45304E5-35A3-4F62-8728-AD3F5A04C152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45304E5-35A3-4F62-8728-AD3F5A04C152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45304E5-35A3-4F62-8728-AD3F5A04C152}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
