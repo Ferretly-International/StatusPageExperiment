@@ -90,32 +90,27 @@ namespace StatusPageLibrary.Models
             /// <summary>
             /// Enum NoneEnum for none
             /// </summary>
-            [EnumMember(Value = "none")]
-            NoneEnum = 1,
+            None = 1,
             
             /// <summary>
             /// Enum MaintenanceEnum for maintenance
             /// </summary>
-            [EnumMember(Value = "maintenance")]
-            MaintenanceEnum = 2,
+            Maintenance = 2,
             
             /// <summary>
             /// Enum MinorEnum for minor
             /// </summary>
-            [EnumMember(Value = "minor")]
-            MinorEnum = 3,
+            Minor = 3,
             
             /// <summary>
             /// Enum MajorEnum for major
             /// </summary>
-            [EnumMember(Value = "major")]
-            MajorEnum = 4,
+            Major = 4,
             
             /// <summary>
             /// Enum CriticalEnum for critical
             /// </summary>
-            [EnumMember(Value = "critical")]
-            CriticalEnum = 5
+            Critical = 5
         }
 
         /// <summary>
@@ -133,36 +128,30 @@ namespace StatusPageLibrary.Models
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum ImpactOverrideEnum
         {
-            
             /// <summary>
             /// Enum NoneEnum for none
             /// </summary>
-            [EnumMember(Value = "none")]
-            NoneEnum = 1,
+            None = 1,
             
             /// <summary>
             /// Enum MaintenanceEnum for maintenance
             /// </summary>
-            [EnumMember(Value = "maintenance")]
-            MaintenanceEnum = 2,
+            Maintenance = 2,
             
             /// <summary>
             /// Enum MinorEnum for minor
             /// </summary>
-            [EnumMember(Value = "minor")]
-            MinorEnum = 3,
+            Minor = 3,
             
             /// <summary>
             /// Enum MajorEnum for major
             /// </summary>
-            [EnumMember(Value = "major")]
-            MajorEnum = 4,
+            Major = 4,
             
             /// <summary>
             /// Enum CriticalEnum for critical
             /// </summary>
-            [EnumMember(Value = "critical")]
-            CriticalEnum = 5
+            Critical = 5
         }
 
         /// <summary>
@@ -345,50 +334,42 @@ namespace StatusPageLibrary.Models
             /// <summary>
             /// Enum InvestigatingEnum for investigating
             /// </summary>
-            [EnumMember(Value = "investigating")]
-            InvestigatingEnum = 1,
+            Investigating = 1,
             
             /// <summary>
             /// Enum IdentifiedEnum for identified
             /// </summary>
-            [EnumMember(Value = "identified")]
-            IdentifiedEnum = 2,
+            Identified = 2,
             
             /// <summary>
             /// Enum MonitoringEnum for monitoring
             /// </summary>
-            [EnumMember(Value = "monitoring")]
-            MonitoringEnum = 3,
+            Monitoring = 3,
             
             /// <summary>
             /// Enum ResolvedEnum for resolved
             /// </summary>
-            [EnumMember(Value = "resolved")]
-            ResolvedEnum = 4,
+            Resolved = 4,
             
             /// <summary>
             /// Enum ScheduledEnum for scheduled
             /// </summary>
-            [EnumMember(Value = "scheduled")]
-            ScheduledEnum = 5,
+            Scheduled = 5,
             
             /// <summary>
             /// Enum InProgressEnum for in_progress
             /// </summary>
-            [EnumMember(Value = "in_progress")]
-            InProgressEnum = 6,
+            InProgress = 6,
             
             /// <summary>
             /// Enum VerifyingEnum for verifying
             /// </summary>
-            [EnumMember(Value = "verifying")]
-            VerifyingEnum = 7,
+            Verifying = 7,
             
             /// <summary>
             /// Enum CompletedEnum for completed
             /// </summary>
-            [EnumMember(Value = "completed")]
-            CompletedEnum = 8
+            Completed = 8
         }
 
         /// <summary>

@@ -30,7 +30,8 @@ public class HttpClientService: IHttpClientService
         
         client.DefaultRequestHeaders.Authorization = 
             new AuthenticationHeaderValue("Bearer", _configuration["StatusPage:ApiKey"]);
-        client.BaseAddress = new Uri(_configuration["StatusPage:ApiUrl"]);
+        client.BaseAddress = new Uri(_configuration["StatusPage:ApiUrl"] ?? 
+                                     throw new InvalidOperationException("StatusPage:ApiUrl is not set"));
         
         return client;
     }

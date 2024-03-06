@@ -23,10 +23,10 @@ var config = new ConfigurationBuilder()
 Console.WriteLine($"StatusPage:ApiUrl: {config["StatusPage:ApiUrl"]}");
 Console.WriteLine($"StatusPage:ApiKey: {config["StatusPage:ApiKey"]}");
 
-using var serviceProvider = new ServiceCollection()
+await using var serviceProvider = new ServiceCollection()
     .AddLogging(cfg => { cfg
         .ClearProviders()
-        .AddConsole().SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+        .AddConsole().SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
     })
     .AddSingleton<IConfiguration>(config)
     .AddHttpClient()
@@ -47,3 +47,8 @@ if (incidentsService == null)
 var activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 
 Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0);
+
+// get incident history
+var incidentHistory = await incidentsService.GetIncidentHistoryAsync(); 
+Console.WriteLine("There are {0} incidents in history", incidentHistory?.Count ?? 0);
+incidentHistory?.ForEach(incident => Console.WriteLine(incident.Name));

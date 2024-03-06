@@ -89,50 +89,42 @@ namespace StatusPageLibrary.Models
             /// <summary>
             /// Enum InvestigatingEnum for investigating
             /// </summary>
-            [EnumMember(Value = "investigating")]
-            InvestigatingEnum = 1,
+            Investigating = 1,
             
             /// <summary>
             /// Enum IdentifiedEnum for identified
             /// </summary>
-            [EnumMember(Value = "identified")]
-            IdentifiedEnum = 2,
+            Identified = 2,
             
             /// <summary>
             /// Enum MonitoringEnum for monitoring
             /// </summary>
-            [EnumMember(Value = "monitoring")]
-            MonitoringEnum = 3,
+            Monitoring = 3,
             
             /// <summary>
             /// Enum ResolvedEnum for resolved
             /// </summary>
-            [EnumMember(Value = "resolved")]
-            ResolvedEnum = 4,
+            Resolved = 4,
             
             /// <summary>
             /// Enum ScheduledEnum for scheduled
             /// </summary>
-            [EnumMember(Value = "scheduled")]
-            ScheduledEnum = 5,
+            Scheduled = 5,
             
             /// <summary>
             /// Enum InProgressEnum for in_progress
             /// </summary>
-            [EnumMember(Value = "in_progress")]
-            InProgressEnum = 6,
+            InProgress = 6,
             
             /// <summary>
             /// Enum VerifyingEnum for verifying
             /// </summary>
-            [EnumMember(Value = "verifying")]
-            VerifyingEnum = 7,
+            Verifying = 7,
             
             /// <summary>
             /// Enum CompletedEnum for completed
             /// </summary>
-            [EnumMember(Value = "completed")]
-            CompletedEnum = 8
+            Completed = 8
         }
 
         /// <summary>
