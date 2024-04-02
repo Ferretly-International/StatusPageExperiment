@@ -31,6 +31,13 @@ public interface IIncidentsService
     /// <param name="incident"></param>
     /// <returns></returns>
     Task<HttpStatusCode> UpdateIncidentAsync(PatchIncident incident);
+    
+    /// <summary>
+    /// Create a new incident
+    /// </summary>
+    /// <param name="incident"></param>
+    /// <returns></returns>
+    Task<Incident?> CreateIncidentAsync(PostIncident incident);
 }
 
 /// <summary>
@@ -107,5 +114,38 @@ public class IncidentsService: IIncidentsService
         var result = await client.PatchAsync(url, new StringContent(serialized, Encoding.UTF8, "application/json"));
 
         return result.StatusCode;
+    }
+
+    public async Task<Incident?> CreateIncidentAsync(PostIncident incident)
+    {
+        var url = $"pages/{_configuration["StatusPage:PageId"]}/incidents";
+        using var client = _httpClientService.GetClient();
+
+        var request = new PostIncidentRequest
+        {
+            Incident = incident
+        };
+        
+        var serialized = JsonSerializer.Serialize(request, new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        });
+        
+        var result = await client.PostAsync(url, new StringContent(serialized, Encoding.UTF8, "application/json"));
+        var content = await result.Content.ReadAsStringAsync();
+
+        if(result.IsSuccessStatusCode)
+        {
+            return JsonSerializer.Deserialize<Incident>(content, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+        }
+        
+        throw new HttpRequestException(message: $"Failed to create incident: {content}",
+            null,
+            statusCode: result.StatusCode);
     }
 }

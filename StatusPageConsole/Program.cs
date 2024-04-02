@@ -44,6 +44,17 @@ if (incidentsService == null)
     return;
 }
 
+// create a new incident
+var newIncident = new PostIncident
+{
+    Status = PostIncident.StatusEnum.investigating,
+    Name = $"New Incident {DateTime.Now:g}",
+    Body = "This is a new incident that we created from the StatusPageConsole",
+};
+
+var createdIncident = await incidentsService.CreateIncidentAsync(newIncident);
+Console.WriteLine("Created incident {0}", createdIncident?.Id);
+
 // get active incidents
 var activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 
@@ -77,3 +88,4 @@ if (firstActiveIncident != null)
     var result = await incidentsService.UpdateIncidentAsync(patchIncident);
     Console.WriteLine("Update result: {0}", result);
 }
+
