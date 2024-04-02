@@ -31,7 +31,7 @@ await using var serviceProvider = new ServiceCollection()
     })
     .AddSingleton<IConfiguration>(config)
     .AddHttpClient()
-    // TODO - add services
+    // add services
     .AddSingleton<IHttpClientService, HttpClientService>()
     .AddSingleton<IIncidentsService, IncidentsService>()
     .BuildServiceProvider();
@@ -63,15 +63,16 @@ if (firstActiveIncident != null)
     var patchIncident = new PatchIncident
     {
         Id = firstActiveIncident.Id,
-        Status = Incident.StatusEnum.investigating,
-        ImpactOverride = firstActiveIncident.ImpactOverride,
+        Status = Incident.StatusEnum.resolved,
+        Body = "Finally back online!",
+        ImpactOverride = Incident.ImpactOverrideEnum.none,
+        DeliverNotifications = true
     };
 
     firstActiveIncident.Components.ForEach(component =>
     {
-        patchIncident.Components[component.Id] = Component.StatusEnum.partial_outage.ToString();    
+        patchIncident.Components[component.Id] = Component.StatusEnum.operational.ToString();    
     });
-    
     
     var result = await incidentsService.UpdateIncidentAsync(patchIncident);
     Console.WriteLine("Update result: {0}", result);

@@ -6,10 +6,20 @@
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);1591</NoWarn>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Status Page Library</Title>
+        <Authors>Ferretly, Intl</Authors>
+        <Copyright>2024, Ferretly, Intl.</Copyright>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+      <None Include="docs\readme.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="docs\" />
     </ItemGroup>
 
 </Project>
