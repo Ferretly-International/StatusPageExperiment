@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using StatusPageLibrary;
 using StatusPageLibrary.Models;
 using StatusPageLibrary.Services;
 
@@ -29,11 +30,8 @@ await using var serviceProvider = new ServiceCollection()
         .ClearProviders()
         .AddConsole().SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
     })
-    .AddSingleton<IConfiguration>(config)
-    .AddHttpClient()
-    // add services
-    .AddSingleton<IHttpClientService, HttpClientService>()
-    .AddSingleton<IIncidentsService, IncidentsService>()
+  //  .AddSingleton<IConfiguration>(config)
+    .AddStatusPageLibrary()
     .BuildServiceProvider();
 
 // get the built IIncidentsService
