@@ -8,11 +8,14 @@
         <NoWarn>$(NoWarn);1591</NoWarn>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>Status Page Library</Title>
-        <Authors>Ferretly, Intl</Authors>
-        <Copyright>2024, Ferretly, Intl.</Copyright>
+        <Authors>Ferretly, International</Authors>
+        <Copyright>2024 by Ferretly, International</Copyright>
         <PackageReadmeFile>readme.md</PackageReadmeFile>
-        <AssemblyVersion>1.2.0.0</AssemblyVersion>
-        <FileVersion>1.2.0.0</FileVersion>
+        <AssemblyVersion>1.3.0.0</AssemblyVersion>
+        <FileVersion>1.3.0.0</FileVersion>
+        <Version>1.3.0</Version>
+        <PackageProjectUrl>https://github.com/Ferretly-International/StatusPageNet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Ferretly-International/StatusPageNet</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
