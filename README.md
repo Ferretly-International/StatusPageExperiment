@@ -1,3 +1,3 @@
-# StatusPage Experiment
+# StatusPage .NET
 
-This repo represents an experimental StatusPage interface service.
+A .NET library for [Atlassian StatusPage](https://www.atlassian.com/software/statuspage).
