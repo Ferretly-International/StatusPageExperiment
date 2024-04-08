@@ -33,6 +33,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Incident Identifier.</value>
         [DataMember(Name="incident_id", EmitDefaultValue=false)]
+        [JsonPropertyName("incident_id")]
         public string IncidentId { get; set; }
 
         /// <summary>
@@ -40,6 +41,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Affected components associated with the incident update.</value>
         [DataMember(Name="affected_components", EmitDefaultValue=false)]
+        [JsonPropertyName("affected_components")]
         public List<Object> AffectedComponents { get; set; }
 
         /// <summary>
@@ -54,6 +56,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when the incident update was created at.</value>
         [DataMember(Name="created_at", EmitDefaultValue=false)]
+        [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
@@ -61,6 +64,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>An optional customized tweet message for incident postmortem.</value>
         [DataMember(Name="custom_tweet", EmitDefaultValue=false)]
+        [JsonPropertyName("custom_tweet")]
         public string CustomTweet { get; set; }
 
         /// <summary>
@@ -68,6 +72,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether to delivery notifications.</value>
         [DataMember(Name="deliver_notifications", EmitDefaultValue=false)]
+        [JsonPropertyName("deliver_notifications")]
         public bool DeliverNotifications { get; set; }
 
         /// <summary>
@@ -75,6 +80,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Timestamp when incident update is happened.</value>
         [DataMember(Name="display_at", EmitDefaultValue=false)]
+        [JsonPropertyName("display_at")]
         public DateTime DisplayAt { get; set; }
 
 
@@ -139,6 +145,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Tweet identifier associated to this incident update.</value>
         [DataMember(Name="tweet_id", EmitDefaultValue=false)]
+        [JsonPropertyName("tweet_id")]
         public string TweetId { get; set; }
 
         /// <summary>
@@ -146,6 +153,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when twitter updated at.</value>
         [DataMember(Name="twitter_updated_at", EmitDefaultValue=false)]
+        [JsonPropertyName("twitter_updated_at")]
         public DateTime TwitterUpdatedAt { get; set; }
 
         /// <summary>
@@ -153,6 +161,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when the incident update is updated.</value>
         [DataMember(Name="updated_at", EmitDefaultValue=false)]
+        [JsonPropertyName("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
         /// <summary>
@@ -160,6 +169,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether to create twitter update.</value>
         [DataMember(Name="wants_twitter_update", EmitDefaultValue=false)]
+        [JsonPropertyName("wants_twitter_update")]
         public bool WantsTwitterUpdate { get; set; }
 
         /// <summary>

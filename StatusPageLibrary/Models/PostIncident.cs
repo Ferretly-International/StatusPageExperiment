@@ -131,27 +131,31 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>value to override calculated impact value</value>
         [DataMember(Name="impact_override", EmitDefaultValue=false)]
-        public ImpactOverrideEnum ImpactOverride { get; set; }
+        [JsonPropertyName("impact_override")]
+        public string ImpactOverride { get; set; }
 
         /// <summary>
         /// The timestamp the incident is scheduled for.
         /// </summary>
         /// <value>The timestamp the incident is scheduled for.</value>
         [DataMember(Name="scheduled_for", EmitDefaultValue=false)]
-        public DateTime ScheduledFor { get; set; }
+        [JsonPropertyName("scheduled_for")]
+        public DateTime? ScheduledFor { get; set; }
 
         /// <summary>
         /// The timestamp the incident is scheduled until.
         /// </summary>
         /// <value>The timestamp the incident is scheduled until.</value>
         [DataMember(Name="scheduled_until", EmitDefaultValue=false)]
-        public DateTime ScheduledUntil { get; set; }
+        [JsonPropertyName("scheduled_until")]
+        public DateTime? ScheduledUntil { get; set; }
 
         /// <summary>
         /// Controls whether to remind subscribers prior to scheduled incidents.
         /// </summary>
         /// <value>Controls whether to remind subscribers prior to scheduled incidents.</value>
         [DataMember(Name="scheduled_remind_prior", EmitDefaultValue=false)]
+        [JsonPropertyName("scheduled_remind_prior")]
         public bool ScheduledRemindPrior { get; set; }
 
         /// <summary>
@@ -159,6 +163,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether change components status to under_maintenance once scheduled maintenance is in progress.</value>
         [DataMember(Name="auto_transition_to_maintenance_state", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_transition_to_maintenance_state")]
         public bool AutoTransitionToMaintenanceState { get; set; }
 
         /// <summary>
@@ -166,6 +171,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether change components status to operational once scheduled maintenance completes.</value>
         [DataMember(Name="auto_transition_to_operational_state", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_transition_to_operational_state")]
         public bool AutoTransitionToOperationalState { get; set; }
 
         /// <summary>
@@ -173,6 +179,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether the incident is scheduled to automatically change to in progress.</value>
         [DataMember(Name="scheduled_auto_in_progress", EmitDefaultValue=false)]
+        [JsonPropertyName("scheduled_auto_in_progress")]
         public bool ScheduledAutoInProgress { get; set; }
 
         /// <summary>
@@ -180,6 +187,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether the incident is scheduled to automatically change to complete.</value>
         [DataMember(Name="scheduled_auto_completed", EmitDefaultValue=false)]
+        [JsonPropertyName("scheduled_auto_completed")]
         public bool ScheduledAutoCompleted { get; set; }
 
         /// <summary>
@@ -187,6 +195,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether send notification when scheduled maintenances auto transition to started.</value>
         [DataMember(Name="auto_transition_deliver_notifications_at_start", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_transition_deliver_notifications_at_start")]
         public bool AutoTransitionDeliverNotificationsAtStart { get; set; }
 
         /// <summary>
@@ -194,6 +203,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether send notification when scheduled maintenances auto transition to completed.</value>
         [DataMember(Name="auto_transition_deliver_notifications_at_end", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_transition_deliver_notifications_at_end")]
         public bool AutoTransitionDeliverNotificationsAtEnd { get; set; }
 
         /// <summary>
@@ -201,6 +211,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Custom reminder intervals for unresolved/open incidents. Not applicable for &lt;strong&gt;Scheduled maintenance&lt;/strong&gt;&lt;br&gt;There are 4 possible states for reminder_intervals:&lt;br&gt;&lt;strong&gt;DEFAULT:&lt;/strong&gt; NULL, representing a default behavior with intervals [3, 6, 12, 24].&lt;br&gt;&lt;strong&gt;AFTER:&lt;/strong&gt; A serialized array of strictly increasing intervals, each integer ranges from [1-24] (inclusive). Ex \&quot;[1, 5, 7, 10]\&quot;&lt;br&gt;&lt;strong&gt;EVERY:&lt;/strong&gt; An integer in the range [1-24] as a string, representing equal intervals. Ex \&quot;4\&quot; for [4, 8, 12, 16, 20, 24]&lt;br&gt;&lt;strong&gt;OFF:&lt;/strong&gt; A serialized empty array, for example, \&quot;[]\&quot;, meaning no reminder notifications will be sent.</value>
         [DataMember(Name="reminder_intervals", EmitDefaultValue=false)]
+        [JsonPropertyName("reminder_intervals")]
         public string ReminderIntervals { get; set; }
 
         /// <summary>
@@ -215,6 +226,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Deliver notifications to subscribers if this is true. If this is false, create an incident without notifying customers.</value>
         [DataMember(Name="deliver_notifications", EmitDefaultValue=false)]
+        [JsonPropertyName("deliver_notifications")]
         public bool DeliverNotifications { get; set; } = true;
 
         /// <summary>
@@ -222,6 +234,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether tweet automatically when scheduled maintenance starts.</value>
         [DataMember(Name="auto_tweet_at_beginning", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_tweet_at_beginning")]
         public bool AutoTweetAtBeginning { get; set; }
 
         /// <summary>
@@ -229,6 +242,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether tweet automatically when scheduled maintenance completes.</value>
         [DataMember(Name="auto_tweet_on_completion", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_tweet_on_completion")]
         public bool AutoTweetOnCompletion { get; set; }
 
         /// <summary>
@@ -236,6 +250,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether tweet automatically when scheduled maintenance is created.</value>
         [DataMember(Name="auto_tweet_on_creation", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_tweet_on_creation")]
         public bool AutoTweetOnCreation { get; set; }
 
         /// <summary>
@@ -243,6 +258,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether tweet automatically one hour before scheduled maintenance starts.</value>
         [DataMember(Name="auto_tweet_one_hour_before", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_tweet_one_hour_before")]
         public bool AutoTweetOneHourBefore { get; set; }
 
         /// <summary>
@@ -250,6 +266,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>TimeStamp when incident was backfilled.</value>
         [DataMember(Name="backfill_date", EmitDefaultValue=false)]
+        [JsonPropertyName("backfill_date")]
         public string BackfillDate { get; set; }
 
         /// <summary>
@@ -276,6 +293,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>List of component_ids affected by this incident</value>
         [DataMember(Name="component_ids", EmitDefaultValue=false)]
+        [JsonPropertyName("component_ids")]
         public List<string> ComponentIds { get; set; } = new();
 
         /// <summary>
@@ -283,6 +301,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Same as :scheduled_auto_transition_in_progress. Controls whether the incident is scheduled to automatically change to in progress.</value>
         [DataMember(Name="scheduled_auto_transition", EmitDefaultValue=false)]
+        [JsonPropertyName("scheduled_auto_transition")]
         public bool ScheduledAutoTransition { get; set; }
 
         /// <summary>
