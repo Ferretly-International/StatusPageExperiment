@@ -30,7 +30,7 @@ await using var serviceProvider = new ServiceCollection()
         .ClearProviders()
         .AddConsole().SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
     })
-  //  .AddSingleton<IConfiguration>(config)
+    .AddSingleton<IConfiguration>(config)
     .AddStatusPageLibrary()
     .BuildServiceProvider();
 
@@ -41,6 +41,7 @@ if (incidentsService == null)
     Console.WriteLine("Failed to get IIncidentsService");
     return;
 }
+
 var activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0);
 
@@ -62,7 +63,8 @@ Console.WriteLine("Created incident {0}", createdIncident?.Id);
 // get active incidents
 activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 
-Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0);
+Console.WriteLine("There are now {0} active incidents", activeIncidents?.Count ?? 0);
+activeIncidents?.ForEach(incident => Console.WriteLine($"{incident.Name}: {incident.Status} @ {incident.Shortlink}"));
 
 // get incident history
 var incidentHistory = await incidentsService.GetIncidentHistoryAsync(); 
