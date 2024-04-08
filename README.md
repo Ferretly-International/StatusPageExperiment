@@ -17,3 +17,8 @@ services collection.
 
 You can use the helper method `Helpers.AddStatusPageLibrary` to add this library to the services collection. This will throw
 an `InvalidOperationException` if an `IConfiguration` instance is not injected into the services collection.
+
+## Development
+
+Before each push to `main`, be sure to update the NuGet package version in the `StatusPageLibrary.csproj` file. This will
+ensure that the NuGet package is updated with the latest changes. The build will fail if the version is not updated.
