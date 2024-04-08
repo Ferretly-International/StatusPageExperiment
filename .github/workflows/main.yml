@@ -39,9 +39,6 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
-      - name: Pack project
-        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ env.PACKAGE_VERSION }}
-
       - name: Push package
         run: dotnet nuget push **\*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source ${{ env.SOURCE }} --skip-duplicate
         if: github.event_name != 'pull_request'
