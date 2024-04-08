@@ -1,0 +1,44 @@
+
+name: "Build, Test, and publish package"
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+  
+env:
+  PROJECT_PATH: 'StatusPageLibrary/StatusPageLibrary.csproj'
+  SOURCE: 'https://nuget.pkg.github.com/Ferretly-International/index.json'
+  PACKAGE_SOURCE: 'https://nuget.pkg.github.com/Ferretly-International/index.json'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dotnet
+        uses: actions/setup-dotnet@v3
+        with: 
+          dotnet-version: 6.0.x
+
+      - name: Setup nuget feed
+        run: dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github {{ env.PACKAGE_SOURCE }}
+        
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+      
+      - name: Set version
+        run: echo "PACKAGE_VERSION=1.1.${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Build
+        run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
+
+      - name: Pack project
+        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ env.PACKAGE_VERSION }}
+
+      - name: Push package
+        run: dotnet nuget push **\*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source ${{ env.SOURCE }} --skip-duplicate
+        if: github.event_name != 'pull_request'
