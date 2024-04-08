@@ -40,5 +40,5 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
       - name: Push package
-        run: dotnet nuget push **\*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source ${{ env.SOURCE }} --skip-duplicate
+        run: dotnet nuget push **\*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source ${{ env.SOURCE }}
         if: github.event_name != 'pull_request'
