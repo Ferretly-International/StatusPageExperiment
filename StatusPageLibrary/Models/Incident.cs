@@ -75,6 +75,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when the incident was created at.</value>
         [DataMember(Name="created_at", EmitDefaultValue=false)]
+        [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
 
 
@@ -162,6 +163,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>value to override calculated impact value</value>
         [DataMember(Name="impact_override", EmitDefaultValue=false)]
+        [JsonPropertyName("impact_override2")]
         public ImpactOverrideEnum ImpactOverride { get; set; }
 
         /// <summary>

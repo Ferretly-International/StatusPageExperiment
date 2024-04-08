@@ -1,8 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-// C:\Users\hokie\gen\src\Org.OpenAPITools
-
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -49,7 +45,7 @@ Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0)
 var newIncident = new PostIncident
 {
     Status = PostIncident.StatusEnum.investigating,
-    //ImpactOverride = PostIncident.ImpactOverrideEnum.major,
+    ImpactOverride = PostIncident.ImpactOverrideEnum.major.ToString(),
     Name = $"New Incident {DateTime.Now:g}",
     Body = "This is a new incident that we created from the StatusPageConsole",
 };

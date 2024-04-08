@@ -33,6 +33,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Page identifier</value>
         [DataMember(Name="page_id", EmitDefaultValue=false)]
+        [JsonPropertyName("page_id")]
         public string PageId { get; set; } = string.Empty;
 
         /// <summary>
@@ -40,18 +41,21 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Component Group identifier</value>
         [DataMember(Name="group_id", EmitDefaultValue=false)]
+        [JsonPropertyName("group_id")]
         public string GroupId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or Sets CreatedAt
         /// </summary>
         [DataMember(Name="created_at", EmitDefaultValue=false)]
+        [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// Gets or Sets UpdatedAt
         /// </summary>
         [DataMember(Name="updated_at", EmitDefaultValue=false)]
+        [JsonPropertyName("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
         /// <summary>
@@ -149,6 +153,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Requires a special feature flag to be enabled</value>
         [DataMember(Name="only_show_if_degraded", EmitDefaultValue=false)]
+        [JsonPropertyName("only_show_if_degraded")]
         public bool OnlyShowIfDegraded { get; set; }
 
         /// <summary>
@@ -156,6 +161,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Requires a special feature flag to be enabled</value>
         [DataMember(Name="automation_email", EmitDefaultValue=false)]
+        [JsonPropertyName("automation_email")]
         public string AutomationEmail { get; set; } = string.Empty;
 
         /// <summary>
@@ -163,6 +169,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The date this component started being used</value>
         [DataMember(Name="start_date", EmitDefaultValue=false)]
+        [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
 
         /// <summary>
