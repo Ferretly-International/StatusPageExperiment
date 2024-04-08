@@ -11,6 +11,8 @@
         <Authors>Ferretly, Intl</Authors>
         <Copyright>2024, Ferretly, Intl.</Copyright>
         <PackageReadmeFile>readme.md</PackageReadmeFile>
+        <AssemblyVersion>1.2.0.0</AssemblyVersion>
+        <FileVersion>1.2.0.0</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
