@@ -43,20 +43,26 @@ if (incidentsService == null)
     Console.WriteLine("Failed to get IIncidentsService");
     return;
 }
+var activeIncidents = await incidentsService.GetActiveIncidentsAsync();
+Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0);
 
 // create a new incident
 var newIncident = new PostIncident
 {
     Status = PostIncident.StatusEnum.investigating,
+    //ImpactOverride = PostIncident.ImpactOverrideEnum.major,
     Name = $"New Incident {DateTime.Now:g}",
     Body = "This is a new incident that we created from the StatusPageConsole",
 };
+
+newIncident.Components["kjtk74jtlcrr"] = Component.StatusEnum.major_outage.ToString();
+newIncident.ComponentIds.Add("kjtk74jtlcrr");
 
 var createdIncident = await incidentsService.CreateIncidentAsync(newIncident);
 Console.WriteLine("Created incident {0}", createdIncident?.Id);
 
 // get active incidents
-var activeIncidents = await incidentsService.GetActiveIncidentsAsync();
+activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 
 Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0);
 

@@ -99,31 +99,31 @@ namespace StatusPageLibrary.Models
             /// Enum NoneEnum for none
             /// </summary>
             [EnumMember(Value = "none")]
-            NoneEnum = 1,
+            none = 1,
             
             /// <summary>
             /// Enum MaintenanceEnum for maintenance
             /// </summary>
             [EnumMember(Value = "maintenance")]
-            MaintenanceEnum = 2,
+            maintenance = 2,
             
             /// <summary>
             /// Enum MinorEnum for minor
             /// </summary>
             [EnumMember(Value = "minor")]
-            MinorEnum = 3,
+            minor = 3,
             
             /// <summary>
             /// Enum MajorEnum for major
             /// </summary>
             [EnumMember(Value = "major")]
-            MajorEnum = 4,
+            major = 4,
             
             /// <summary>
             /// Enum CriticalEnum for critical
             /// </summary>
             [EnumMember(Value = "critical")]
-            CriticalEnum = 5
+            critical = 5
         }
 
         /// <summary>
@@ -267,17 +267,16 @@ namespace StatusPageLibrary.Models
         public string Body { get; set; }
 
         /// <summary>
-        /// Gets or Sets Components
+        /// Dictionary of components and their new status. The key is the component id and the value is the new status.
         /// </summary>
-        [DataMember(Name="components", EmitDefaultValue=false)]
-        public List<Component> Components { get; set; }
-
+        public Dictionary<string, string> Components { get; } = new Dictionary<string, string>();
+        
         /// <summary>
         /// List of component_ids affected by this incident
         /// </summary>
         /// <value>List of component_ids affected by this incident</value>
         [DataMember(Name="component_ids", EmitDefaultValue=false)]
-        public List<string> ComponentIds { get; set; }
+        public List<string> ComponentIds { get; set; } = new();
 
         /// <summary>
         /// Same as :scheduled_auto_transition_in_progress. Controls whether the incident is scheduled to automatically change to in progress.
