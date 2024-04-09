@@ -159,14 +159,6 @@ namespace StatusPageLibrary.Models
         }
 
         /// <summary>
-        /// value to override calculated impact value
-        /// </summary>
-        /// <value>value to override calculated impact value</value>
-        [DataMember(Name="impact_override", EmitDefaultValue=false)]
-        [JsonPropertyName("impact_override2")]
-        public ImpactOverrideEnum ImpactOverride { get; set; }
-
-        /// <summary>
         /// The incident updates for incident.
         /// </summary>
         /// <value>The incident updates for incident.</value>
@@ -410,7 +402,6 @@ namespace StatusPageLibrary.Models
             sb.Append("  Components: ").Append(Components).Append("\n");
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
             sb.Append("  Impact: ").Append(Impact).Append("\n");
-            sb.Append("  ImpactOverride: ").Append(ImpactOverride).Append("\n");
             sb.Append("  IncidentUpdates: ").Append(IncidentUpdates).Append("\n");
             sb.Append("  Metadata: ").Append(Metadata).Append("\n");
             sb.Append("  MonitoringAt: ").Append(MonitoringAt).Append("\n");
