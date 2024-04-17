@@ -6,3 +6,5 @@ riderModule.iml
 .idea/.idea.StatusPageNet/.idea/
 
 .idea/.idea.StatusPageExperiment/.idea/
+
+*.user

@@ -18,8 +18,9 @@ var config = new ConfigurationBuilder()
     })
     .Build();
 
-Console.WriteLine($"StatusPage:ApiUrl: {config["StatusPage:ApiUrl"]}");
-Console.WriteLine($"StatusPage:ApiKey: {config["StatusPage:ApiKey"]}");
+var serviceConfiguration = config.GetSection("StatusPage").Get<IncidentsService.Configuration>();
+Console.WriteLine($"StatusPage:ApiUrl: {serviceConfiguration.ApiUrl}");
+Console.WriteLine($"StatusPage:ApiKey: {serviceConfiguration.ApiKey}");
 
 await using var serviceProvider = new ServiceCollection()
     .AddLogging(cfg => { cfg
@@ -27,7 +28,7 @@ await using var serviceProvider = new ServiceCollection()
         .AddConsole().SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
     })
     .AddSingleton<IConfiguration>(config)
-    .AddStatusPageLibrary()
+    .AddStatusPageLibrary(serviceConfiguration)
     .BuildServiceProvider();
 
 // get the built IIncidentsService
@@ -50,6 +51,8 @@ var newIncident = new PostIncident
     Body = "This is a new incident that we created from the StatusPageConsole",
 };
 
+// TODO - the component id should be fetched from configuration as they change 
+// depending on the status page instance being used
 newIncident.Components["kjtk74jtlcrr"] = Component.StatusEnum.major_outage.ToString();
 newIncident.ComponentIds.Add("kjtk74jtlcrr");
 
