@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Configuration;
 using StatusPageLibrary.Models;
 
 namespace StatusPageLibrary.Services;
@@ -46,9 +45,11 @@ public interface IIncidentsService
 public class IncidentsService: IIncidentsService
 {
     private readonly IHttpClientService _httpClientService;
-    private readonly IConfiguration _configuration;
+    private readonly Configuration _configuration;
 
-    public IncidentsService(IHttpClientService httpClientService, IConfiguration configuration)
+    public IncidentsService(
+        IHttpClientService httpClientService, 
+        Configuration configuration)
     {
         _httpClientService = httpClientService;
         _configuration = configuration;
@@ -59,7 +60,7 @@ public class IncidentsService: IIncidentsService
     {
         using var client = _httpClientService.GetClient();
         var result = await client
-            .GetAsync($"pages/{_configuration["StatusPage:PageId"]}/incidents/unresolved");
+            .GetAsync($"pages/{_configuration.PageId}/incidents/unresolved");
         
         if (!result.IsSuccessStatusCode) throw new HttpRequestException(message: "Failed to retrieve active incidents",
             null,
@@ -77,7 +78,7 @@ public class IncidentsService: IIncidentsService
 
     public async Task<List<Incident>> GetIncidentHistoryAsync(string? query = null, int limit = 100, int page = 1)
     {
-        var url = $"pages/{_configuration["StatusPage:PageId"]}/incidents?limit={limit}&page={page}";
+        var url = $"pages/{_configuration.PageId}/incidents?limit={limit}&page={page}";
         if (!string.IsNullOrWhiteSpace(query))
         {
             url += $"&q={UrlEncoder.Create().Encode(query)}";
@@ -99,7 +100,7 @@ public class IncidentsService: IIncidentsService
     /// <inheritdoc />
     public async Task<HttpStatusCode> UpdateIncidentAsync(PatchIncident incident)
     {
-        var url = $"pages/{_configuration["StatusPage:PageId"]}/incidents/{incident.Id}";
+        var url = $"pages/{_configuration.PageId}/incidents/{incident.Id}";
         using var client = _httpClientService.GetClient();
 
         var patchIncident = new PatchIncidentRequest {Incident = incident};
@@ -118,7 +119,7 @@ public class IncidentsService: IIncidentsService
 
     public async Task<Incident?> CreateIncidentAsync(PostIncident incident)
     {
-        var url = $"pages/{_configuration["StatusPage:PageId"]}/incidents";
+        var url = $"pages/{_configuration.PageId}/incidents";
         using var client = _httpClientService.GetClient();
 
         var request = new PostIncidentRequest
@@ -147,5 +148,26 @@ public class IncidentsService: IIncidentsService
         throw new HttpRequestException(message: $"Failed to create incident: {content}",
             null,
             statusCode: result.StatusCode);
+    }
+
+    /// <summary>
+    /// Configuration for the service.
+    /// </summary>
+    public class Configuration
+    {
+        /// <summary>
+        /// The PageId of the status page to query
+        /// </summary>
+        public string PageId { get; init; } = null!;
+        
+        /// <summary>
+        /// The API key to use for the status page
+        /// </summary>
+        public string ApiKey { get; init; } = null!;
+        
+        /// <summary>
+        /// The base URL for the status page API
+        /// </summary>
+        public string ApiUrl { get; init; } = null!;
     }
 }

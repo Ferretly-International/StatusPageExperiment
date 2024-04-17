@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Headers;
-using Microsoft.Extensions.Configuration;
 
 namespace StatusPageLibrary.Services;
 
@@ -15,9 +14,11 @@ public interface IHttpClientService
 public class HttpClientService: IHttpClientService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IConfiguration _configuration;
+    private readonly IncidentsService.Configuration _configuration;
 
-    public HttpClientService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+    public HttpClientService(
+        IHttpClientFactory httpClientFactory, 
+        IncidentsService.Configuration configuration)
     {
         _httpClientFactory = httpClientFactory;
         _configuration = configuration;
@@ -29,8 +30,10 @@ public class HttpClientService: IHttpClientService
         var client = _httpClientFactory.CreateClient();
         
         client.DefaultRequestHeaders.Authorization = 
-            new AuthenticationHeaderValue("Bearer", _configuration["StatusPage:ApiKey"]);
-        client.BaseAddress = new Uri(_configuration["StatusPage:ApiUrl"] ?? 
+            new AuthenticationHeaderValue(
+                "Bearer", 
+                _configuration.ApiKey);
+        client.BaseAddress = new Uri(_configuration.ApiUrl ?? 
                                      throw new InvalidOperationException("StatusPage:ApiUrl is not set"));
         
         return client;
