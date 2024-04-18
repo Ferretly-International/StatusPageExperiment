@@ -32,9 +32,14 @@ jobs:
         
       - name: Restore dependencies
         run: dotnet restore ${{ env.PROJECT_PATH }}
-      
+
+      # github.run_number is a number of the pipeline run. It is increased automatically.
+      # That's why we can use it to increase the version of the nuget package.
+      # Here we replace the last number in the version with github.run_number.
       - name: Set version
-        run: echo "PACKAGE_VERSION=1.1.${{ github.run_number }}" >> $GITHUB_ENV
+        run: |
+         echo "Build version is ${{github.run_number}}"
+         sed -i "s/\(<Version>\([0-9]\+\.\)\{2\}\)\([0-9]\+\)/\1${{github.run_number}}/" ${{env.PROJECT_FILE}}       
 
       - name: Build
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
