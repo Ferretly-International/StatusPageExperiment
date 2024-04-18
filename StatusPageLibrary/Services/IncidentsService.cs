@@ -10,6 +10,12 @@ namespace StatusPageLibrary.Services;
 public interface IIncidentsService
 {
     /// <summary>
+    /// Fetch a list of active incidents as a <see cref="DTO.Incident"/>
+    /// </summary>
+    /// <returns></returns>
+    Task<List<DTO.Incident>> GetActiveIncidentsAsDtoAsync();
+
+    /// <summary>
     /// Fetch a list of active incidents
     /// </summary>
     /// <returns></returns>
@@ -53,6 +59,13 @@ public class IncidentsService: IIncidentsService
     {
         _httpClientService = httpClientService;
         _configuration = configuration;
+    }
+
+    /// <inheritdoc />
+    public async Task<List<DTO.Incident>> GetActiveIncidentsAsDtoAsync()
+    {
+        var activeIncidents = await GetActiveIncidentsAsync();
+        return activeIncidents.Select(i => i.AsDto()).ToList();
     }
 
     /// <inheritdoc />

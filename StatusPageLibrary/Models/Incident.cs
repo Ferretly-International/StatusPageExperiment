@@ -445,5 +445,23 @@ namespace StatusPageLibrary.Models
                     WriteIndented = true
                 });
         }
+        
+        /// <summary>
+        /// Convert the Incident object to a DTO
+        /// </summary>
+        /// <returns></returns>
+        public DTO.Incident AsDto()
+        {
+            return new DTO.Incident
+            {
+                Id = Id,
+                Name = Name,
+                Status = Status,
+                Impact = Impact,
+                CreatedAt = CreatedAt,
+                UpdatedAt = UpdatedAt,
+                IncidentUrl = Shortlink
+            };
+        }
     }
 }
