@@ -83,7 +83,8 @@ public class IncidentsService: IIncidentsService
         
         var incidents = JsonSerializer.Deserialize<List<Incident>>(content, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         });
 
         return incidents ?? new List<Incident>();

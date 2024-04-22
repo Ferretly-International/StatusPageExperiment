@@ -42,6 +42,11 @@ if (incidentsService == null)
 var activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0);
 
+// get incident history
+var incidentHistory = await incidentsService.GetIncidentHistoryAsync(); 
+Console.WriteLine("There are {0} incidents in history", incidentHistory?.Count ?? 0);
+incidentHistory?.ForEach(incident => Console.WriteLine($"{incident.Name} ({incident.Id})"));
+
 // create a new incident
 var newIncident = new PostIncident
 {
@@ -49,11 +54,14 @@ var newIncident = new PostIncident
     ImpactOverride = PostIncident.ImpactOverrideEnum.major.ToString(),
     Name = $"New Incident {DateTime.Now:g}",
     Body = "This is a new incident that we created from the StatusPageConsole",
+    Components =
+    {
+        // TODO - the component id should be fetched from configuration as they change 
+        // depending on the status page instance being used
+        ["kjtk74jtlcrr"] = Component.StatusEnum.major_outage.ToString()
+    }
 };
 
-// TODO - the component id should be fetched from configuration as they change 
-// depending on the status page instance being used
-newIncident.Components["kjtk74jtlcrr"] = Component.StatusEnum.major_outage.ToString();
 newIncident.ComponentIds.Add("kjtk74jtlcrr");
 
 var createdIncident = await incidentsService.CreateIncidentAsync(newIncident);
@@ -63,29 +71,23 @@ Console.WriteLine("Created incident {0}", createdIncident?.Id);
 activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 
 Console.WriteLine("There are now {0} active incidents", activeIncidents?.Count ?? 0);
-activeIncidents?.ForEach(incident => Console.WriteLine($"{incident.Name}: {incident.Status} @ {incident.Shortlink}"));
+activeIncidents?.ForEach(incident => Console.WriteLine($"{incident.Name} ({incident.Id}): {incident.Status} @ {incident.Shortlink}"));
 
-// get incident history
-var incidentHistory = await incidentsService.GetIncidentHistoryAsync(); 
-Console.WriteLine("There are {0} incidents in history", incidentHistory?.Count ?? 0);
-incidentHistory?.ForEach(incident => Console.WriteLine(incident.Name));
-
-// update the first active incident
-var firstActiveIncident = activeIncidents?.FirstOrDefault();
-if (firstActiveIncident != null)
+// resolve the incident created above
+if (createdIncident != null)
 {
-    Console.WriteLine("Updating incident {0}", firstActiveIncident.Id);
+    Console.WriteLine("Updating incident {0}", createdIncident.Id);
 
     var patchIncident = new PatchIncident
     {
-        Id = firstActiveIncident.Id,
+        Id = createdIncident.Id,
         Status = Incident.StatusEnum.resolved,
         Body = "Finally back online!",
         ImpactOverride = Incident.ImpactOverrideEnum.none,
         DeliverNotifications = true
     };
 
-    firstActiveIncident.Components.ForEach(component =>
+    createdIncident.Components.ForEach(component =>
     {
         patchIncident.Components[component.Id] = Component.StatusEnum.operational.ToString();    
     });
