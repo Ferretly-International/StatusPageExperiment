@@ -163,6 +163,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The incident updates for incident.</value>
         [DataMember(Name="incident_updates", EmitDefaultValue=false)]
+        [JsonPropertyName("incident_updates")]
         public List<IncidentUpdate> IncidentUpdates { get; set; }
 
         /// <summary>
@@ -177,7 +178,8 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when incident entered monitoring state.</value>
         [DataMember(Name="monitoring_at", EmitDefaultValue=false)]
-        public DateTime MonitoringAt { get; set; }
+        [JsonPropertyName("monitoring_at")]
+        public DateTime? MonitoringAt { get; set; }
 
         /// <summary>
         /// Incident Name. There is a maximum limit of 255 characters.
@@ -191,6 +193,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Incident Page Identifier</value>
         [DataMember(Name="page_id", EmitDefaultValue=false)]
+        [JsonPropertyName("page_id")]
         public string PageId { get; set; }
 
         /// <summary>
@@ -198,6 +201,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Body of the Postmortem.</value>
         [DataMember(Name="postmortem_body", EmitDefaultValue=false)]
+        [JsonPropertyName("postmortem_body")]
         public string PostmortemBody { get; set; }
 
         /// <summary>
@@ -205,13 +209,15 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when the incident postmortem body was last updated at.</value>
         [DataMember(Name="postmortem_body_last_updated_at", EmitDefaultValue=false)]
-        public DateTime PostmortemBodyLastUpdatedAt { get; set; }
+        [JsonPropertyName("postmortem_body_last_updated_at")]
+        public DateTime? PostmortemBodyLastUpdatedAt { get; set; }
 
         /// <summary>
         /// Controls whether the incident will have postmortem.
         /// </summary>
         /// <value>Controls whether the incident will have postmortem.</value>
         [DataMember(Name="postmortem_ignored", EmitDefaultValue=false)]
+        [JsonPropertyName("postmortem_ignored")]
         public bool PostmortemIgnored { get; set; }
 
         /// <summary>
@@ -219,6 +225,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Indicates whether subscribers are already notified about postmortem.</value>
         [DataMember(Name="postmortem_notified_subscribers", EmitDefaultValue=false)]
+        [JsonPropertyName("postmortem_notified_subscribers")]
         public bool PostmortemNotifiedSubscribers { get; set; }
 
         /// <summary>
@@ -226,6 +233,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether to decide if notify postmortem on twitter.</value>
         [DataMember(Name="postmortem_notified_twitter", EmitDefaultValue=false)]
+        [JsonPropertyName("postmortem_notified_twitter")]
         public bool PostmortemNotifiedTwitter { get; set; }
 
         /// <summary>
@@ -233,20 +241,23 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when the postmortem was published.</value>
         [DataMember(Name="postmortem_published_at", EmitDefaultValue=false)]
-        public bool PostmortemPublishedAt { get; set; }
+        [JsonPropertyName("postmortem_published_at")]
+        public DateTime? PostmortemPublishedAt { get; set; }
 
         /// <summary>
         /// The timestamp when incident was resolved.
         /// </summary>
         /// <value>The timestamp when incident was resolved.</value>
         [DataMember(Name="resolved_at", EmitDefaultValue=false)]
-        public DateTime ResolvedAt { get; set; }
+        [JsonPropertyName("resolved_at")]
+        public DateTime? ResolvedAt { get; set; }
 
         /// <summary>
         /// Controls whether the incident is scheduled to automatically change to complete.
         /// </summary>
         /// <value>Controls whether the incident is scheduled to automatically change to complete.</value>
         [DataMember(Name="scheduled_auto_completed", EmitDefaultValue=false)]
+        [JsonPropertyName("scheduled_auto_completed")]
         public bool ScheduledAutoCompleted { get; set; }
 
         /// <summary>
@@ -254,6 +265,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether the incident is scheduled to automatically change to in progress.</value>
         [DataMember(Name="scheduled_auto_in_progress", EmitDefaultValue=false)]
+        [JsonPropertyName("scheduled_auto_in_progress")]
         public bool ScheduledAutoInProgress { get; set; }
 
         /// <summary>
@@ -261,13 +273,15 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp the incident is scheduled for.</value>
         [DataMember(Name="scheduled_for", EmitDefaultValue=false)]
-        public DateTime ScheduledFor { get; set; }
+        [JsonPropertyName("scheduled_for")]
+        public DateTime? ScheduledFor { get; set; }
 
         /// <summary>
         /// Controls whether send notification when scheduled maintenances auto transition to completed.
         /// </summary>
         /// <value>Controls whether send notification when scheduled maintenances auto transition to completed.</value>
         [DataMember(Name="auto_transition_deliver_notifications_at_end", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_transition_deliver_notifications_at_end")]
         public bool AutoTransitionDeliverNotificationsAtEnd { get; set; }
 
         /// <summary>
@@ -275,6 +289,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether send notification when scheduled maintenances auto transition to started.</value>
         [DataMember(Name="auto_transition_deliver_notifications_at_start", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_transition_deliver_notifications_at_start")]
         public bool AutoTransitionDeliverNotificationsAtStart { get; set; }
 
         /// <summary>
@@ -282,6 +297,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether change components status to under_maintenance once scheduled maintenance is in progress.</value>
         [DataMember(Name="auto_transition_to_maintenance_state", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_transition_to_maintenance_state")]
         public bool AutoTransitionToMaintenanceState { get; set; }
 
         /// <summary>
@@ -289,6 +305,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether change components status to operational once scheduled maintenance completes.</value>
         [DataMember(Name="auto_transition_to_operational_state", EmitDefaultValue=false)]
+        [JsonPropertyName("auto_transition_to_operational_state")]
         public bool AutoTransitionToOperationalState { get; set; }
 
         /// <summary>
@@ -296,6 +313,7 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>Controls whether to remind subscribers prior to scheduled incidents.</value>
         [DataMember(Name="scheduled_remind_prior", EmitDefaultValue=false)]
+        [JsonPropertyName("scheduled_remind_prior")]
         public bool ScheduledRemindPrior { get; set; }
 
         /// <summary>
@@ -303,14 +321,16 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when the scheduled incident reminder was sent at.</value>
         [DataMember(Name="scheduled_reminded_at", EmitDefaultValue=false)]
-        public DateTime ScheduledRemindedAt { get; set; }
+        [JsonPropertyName("scheduled_reminded_at")]
+        public DateTime? ScheduledRemindedAt { get; set; }
 
         /// <summary>
         /// The timestamp the incident is scheduled until.
         /// </summary>
         /// <value>The timestamp the incident is scheduled until.</value>
         [DataMember(Name="scheduled_until", EmitDefaultValue=false)]
-        public DateTime ScheduledUntil { get; set; }
+        [JsonPropertyName("scheduled_until")]
+        public DateTime? ScheduledUntil { get; set; }
 
         /// <summary>
         /// Incident Shortlink.
@@ -381,13 +401,15 @@ namespace StatusPageLibrary.Models
         /// </summary>
         /// <value>The timestamp when the incident was updated at.</value>
         [DataMember(Name="updated_at", EmitDefaultValue=false)]
-        public DateTime UpdatedAt { get; set; }
+        [JsonPropertyName("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
 
         /// <summary>
         /// Custom reminder intervals for unresolved/open incidents. Not applicable for &lt;strong&gt;Scheduled maintenance&lt;/strong&gt;&lt;br&gt;There are 4 possible states for reminder_intervals:&lt;br&gt;&lt;strong&gt;DEFAULT:&lt;/strong&gt; NULL, representing a default behavior with intervals [3, 6, 12, 24].&lt;br&gt;&lt;strong&gt;AFTER:&lt;/strong&gt; A serialized array of strictly increasing intervals, each integer ranges from [1-24] (inclusive). Ex \&quot;[1, 5, 7, 10]\&quot;&lt;br&gt;&lt;strong&gt;EVERY:&lt;/strong&gt; An integer in the range [1-24] as a string, representing equal intervals. Ex \&quot;4\&quot; for [4, 8, 12, 16, 20, 24]&lt;br&gt;&lt;strong&gt;OFF:&lt;/strong&gt; A serialized empty array, for example, \&quot;[]\&quot;, meaning no reminder notifications will be sent.
         /// </summary>
         /// <value>Custom reminder intervals for unresolved/open incidents. Not applicable for &lt;strong&gt;Scheduled maintenance&lt;/strong&gt;&lt;br&gt;There are 4 possible states for reminder_intervals:&lt;br&gt;&lt;strong&gt;DEFAULT:&lt;/strong&gt; NULL, representing a default behavior with intervals [3, 6, 12, 24].&lt;br&gt;&lt;strong&gt;AFTER:&lt;/strong&gt; A serialized array of strictly increasing intervals, each integer ranges from [1-24] (inclusive). Ex \&quot;[1, 5, 7, 10]\&quot;&lt;br&gt;&lt;strong&gt;EVERY:&lt;/strong&gt; An integer in the range [1-24] as a string, representing equal intervals. Ex \&quot;4\&quot; for [4, 8, 12, 16, 20, 24]&lt;br&gt;&lt;strong&gt;OFF:&lt;/strong&gt; A serialized empty array, for example, \&quot;[]\&quot;, meaning no reminder notifications will be sent.</value>
         [DataMember(Name="reminder_intervals", EmitDefaultValue=false)]
+        [JsonPropertyName("reminder_intervals")]
         public string ReminderIntervals { get; set; }
 
         /// <summary>

@@ -42,55 +42,66 @@ if (incidentsService == null)
 var activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 Console.WriteLine("There are {0} active incidents", activeIncidents?.Count ?? 0);
 
+// get incident history
+var incidentHistory = await incidentsService.GetIncidentHistoryAsync(); 
+Console.WriteLine("There are {0} incidents in history", incidentHistory?.Count ?? 0);
+incidentHistory?.ForEach(incident => Console.WriteLine($"{incident.Name} ({incident.Id})"));
+
 // create a new incident
 var newIncident = new PostIncident
 {
-    Status = PostIncident.StatusEnum.investigating,
+    Status = PostIncident.StatusEnum.identified,
     ImpactOverride = PostIncident.ImpactOverrideEnum.major.ToString(),
     Name = $"New Incident {DateTime.Now:g}",
     Body = "This is a new incident that we created from the StatusPageConsole",
+    Components =
+    {
+        // TODO - the component id should be fetched from configuration as they change 
+        // depending on the status page instance being used
+        ["kjtk74jtlcrr"] = Component.StatusEnum.major_outage.ToString()
+    }
 };
 
-// TODO - the component id should be fetched from configuration as they change 
-// depending on the status page instance being used
-newIncident.Components["kjtk74jtlcrr"] = Component.StatusEnum.major_outage.ToString();
 newIncident.ComponentIds.Add("kjtk74jtlcrr");
 
 var createdIncident = await incidentsService.CreateIncidentAsync(newIncident);
 Console.WriteLine("Created incident {0}", createdIncident?.Id);
 
+if (createdIncident != null)
+{
+    var incident = await incidentsService.GetIncidentAsync(createdIncident.Id);
+    Console.WriteLine("Got newly created incident {0}", incident?.Id);
+}
+
 // get active incidents
 activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 
 Console.WriteLine("There are now {0} active incidents", activeIncidents?.Count ?? 0);
-activeIncidents?.ForEach(incident => Console.WriteLine($"{incident.Name}: {incident.Status} @ {incident.Shortlink}"));
+activeIncidents?.ForEach(incident => Console.WriteLine($"{incident.Name} ({incident.Id}): {incident.Status} @ {incident.Shortlink}"));
 
-// get incident history
-var incidentHistory = await incidentsService.GetIncidentHistoryAsync(); 
-Console.WriteLine("There are {0} incidents in history", incidentHistory?.Count ?? 0);
-incidentHistory?.ForEach(incident => Console.WriteLine(incident.Name));
-
-// update the first active incident
-var firstActiveIncident = activeIncidents?.FirstOrDefault();
-if (firstActiveIncident != null)
+// resolve the incident created above
+if (createdIncident != null)
 {
-    Console.WriteLine("Updating incident {0}", firstActiveIncident.Id);
+    Console.WriteLine("Updating incident {0}", createdIncident.Id);
 
     var patchIncident = new PatchIncident
     {
-        Id = firstActiveIncident.Id,
-        Status = Incident.StatusEnum.resolved,
-        Body = "Finally back online!",
-        ImpactOverride = Incident.ImpactOverrideEnum.none,
-        DeliverNotifications = true
+        Id = createdIncident.Id,
+        Status = Incident.StatusEnum.investigating,
+        Body = "We are investigating the issue",
+        DeliverNotifications = false
     };
 
-    firstActiveIncident.Components.ForEach(component =>
+    createdIncident.Components.ForEach(component =>
     {
-        patchIncident.Components[component.Id] = Component.StatusEnum.operational.ToString();    
+        patchIncident.Components[component.Id] = component.Status.ToString();    
     });
     
-    var result = await incidentsService.UpdateIncidentAsync(patchIncident);
-    Console.WriteLine("Update result: {0}", result);
+    var resultIncident = await incidentsService.UpdateIncidentAsync(patchIncident);
+    Console.WriteLine($"Update result: {resultIncident.IncidentUpdates.Count} updates");
+    
+    resultIncident = await incidentsService.ResolveIncidentAsync(patchIncident.Id, "We have resolved the issue.", 
+        true, false);
+    Console.WriteLine($"Updated to resolved result: {resultIncident?.IncidentUpdates.Count} updates");
 }
 

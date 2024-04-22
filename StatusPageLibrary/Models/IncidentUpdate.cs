@@ -57,7 +57,7 @@ namespace StatusPageLibrary.Models
         /// <value>The timestamp when the incident update was created at.</value>
         [DataMember(Name="created_at", EmitDefaultValue=false)]
         [JsonPropertyName("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         /// <summary>
         /// An optional customized tweet message for incident postmortem.
@@ -81,7 +81,7 @@ namespace StatusPageLibrary.Models
         /// <value>Timestamp when incident update is happened.</value>
         [DataMember(Name="display_at", EmitDefaultValue=false)]
         [JsonPropertyName("display_at")]
-        public DateTime DisplayAt { get; set; }
+        public DateTime? DisplayAt { get; set; }
 
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace StatusPageLibrary.Models
         /// <value>The timestamp when twitter updated at.</value>
         [DataMember(Name="twitter_updated_at", EmitDefaultValue=false)]
         [JsonPropertyName("twitter_updated_at")]
-        public DateTime TwitterUpdatedAt { get; set; }
+        public DateTime? TwitterUpdatedAt { get; set; }
 
         /// <summary>
         /// The timestamp when the incident update is updated.
@@ -162,7 +162,7 @@ namespace StatusPageLibrary.Models
         /// <value>The timestamp when the incident update is updated.</value>
         [DataMember(Name="updated_at", EmitDefaultValue=false)]
         [JsonPropertyName("updated_at")]
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         /// <summary>
         /// Controls whether to create twitter update.

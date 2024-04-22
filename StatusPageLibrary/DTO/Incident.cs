@@ -37,7 +37,7 @@ public class Incident
     /// <summary>
     /// When the incident was last updated
     /// </summary>
-    public DateTime UpdatedAt { get; init; }
+    public DateTime? UpdatedAt { get; init; }
         
     /// <summary>
     /// A link to the incident's status page

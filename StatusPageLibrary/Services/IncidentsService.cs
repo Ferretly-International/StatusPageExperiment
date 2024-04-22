@@ -29,13 +29,13 @@ public interface IIncidentsService
     /// <param name="page">Page offset to fetch</param>
     /// <returns></returns>
     Task<List<Incident>> GetIncidentHistoryAsync(string? query = null, int limit = 100, int page = 1);
-    
+
     /// <summary>
     /// Update an existing incident
     /// </summary>
     /// <param name="incident"></param>
     /// <returns></returns>
-    Task<HttpStatusCode> UpdateIncidentAsync(PatchIncident incident);
+    Task<Incident> UpdateIncidentAsync(PatchIncident incident);
     
     /// <summary>
     /// Create a new incident
@@ -43,6 +43,23 @@ public interface IIncidentsService
     /// <param name="incident"></param>
     /// <returns></returns>
     Task<Incident?> CreateIncidentAsync(PostIncident incident);
+    
+    /// <summary>
+    /// Gets an existing incident by its ID
+    /// </summary>
+    /// <param name="incidentId"></param>
+    /// <returns>The incident or null of not found</returns>
+    Task<Incident?> GetIncidentAsync(string incidentId);
+    
+    /// <summary>
+    /// Mark an incident as resolved.
+    /// </summary>
+    /// <param name="incidentId">The id of the incident to mark as resolved.</param>
+    /// <param name="body">The text for the update.</param>
+    /// <param name="setComponentsToOperational">If true, mark each of the incident's components as <see cref="Component.StatusEnum.operational"/>.</param>
+    /// <param name="deliverNotifications">If true, have StatusPage send notifications.</param>
+    /// <returns></returns>
+    Task<Incident?> ResolveIncidentAsync(string incidentId, string body, bool setComponentsToOperational = true, bool deliverNotifications = true);
 }
 
 /// <summary>
@@ -83,12 +100,14 @@ public class IncidentsService: IIncidentsService
         
         var incidents = JsonSerializer.Deserialize<List<Incident>>(content, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         });
 
         return incidents ?? new List<Incident>();
     }
 
+    /// <inheritdoc />
     public async Task<List<Incident>> GetIncidentHistoryAsync(string? query = null, int limit = 100, int page = 1)
     {
         var url = $"pages/{_configuration.PageId}/incidents?limit={limit}&page={page}";
@@ -111,7 +130,7 @@ public class IncidentsService: IIncidentsService
     }
 
     /// <inheritdoc />
-    public async Task<HttpStatusCode> UpdateIncidentAsync(PatchIncident incident)
+    public async Task<Incident> UpdateIncidentAsync(PatchIncident incident)
     {
         var url = $"pages/{_configuration.PageId}/incidents/{incident.Id}";
         using var client = _httpClientService.GetClient();
@@ -126,10 +145,20 @@ public class IncidentsService: IIncidentsService
         });
         
         var result = await client.PatchAsync(url, new StringContent(serialized, Encoding.UTF8, "application/json"));
-
-        return result.StatusCode;
+        if(!result.IsSuccessStatusCode) throw new HttpRequestException(message: "Failed to update incident",
+            null,
+            statusCode: result.StatusCode);
+        
+        var content = await result.Content.ReadAsStringAsync();
+        
+        return JsonSerializer.Deserialize<Incident>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        }) ?? throw new JsonException("Failed to deserialize incident");
     }
 
+    /// <inheritdoc />
     public async Task<Incident?> CreateIncidentAsync(PostIncident incident)
     {
         var url = $"pages/{_configuration.PageId}/incidents";
@@ -161,6 +190,54 @@ public class IncidentsService: IIncidentsService
         throw new HttpRequestException(message: $"Failed to create incident: {content}",
             null,
             statusCode: result.StatusCode);
+    }
+
+    /// <inheritdoc />
+    public async Task<Incident?> GetIncidentAsync(string incidentId)
+    {
+        var url = $"pages/{_configuration.PageId}/incidents/{incidentId}";
+        using var client = _httpClientService.GetClient();
+        var result = await client.GetAsync(url);
+        if(!result.IsSuccessStatusCode) return null;
+        var content = await result.Content.ReadAsStringAsync();
+        
+        return JsonSerializer.Deserialize<Incident>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        });
+    }
+
+    /// <inheritdoc />
+    public async Task<Incident?> ResolveIncidentAsync(string incidentId, string body, 
+        bool setComponentsToOperational = true, bool deliverNotifications = true)
+    {
+        // get the incident to be resolved
+        var incident = await GetIncidentAsync(incidentId);
+        
+        // if the incident is not found, return null
+        if (incident == null) return null;
+        
+        // create a new patch incident
+        var patchIncident = new PatchIncident
+        {
+            Id = incidentId,
+            Status = Incident.StatusEnum.resolved,
+            Body = body,
+            DeliverNotifications = deliverNotifications
+        };
+        
+        // set the components to operational if requested
+        if (setComponentsToOperational)
+        {
+            incident.Components.ForEach(component =>
+            {
+                patchIncident.Components[component.Id] = Component.StatusEnum.operational.ToString();    
+            });
+        }
+        
+        // update the incident
+        return await UpdateIncidentAsync(patchIncident);
     }
 
     /// <summary>
