@@ -67,6 +67,12 @@ newIncident.ComponentIds.Add("kjtk74jtlcrr");
 var createdIncident = await incidentsService.CreateIncidentAsync(newIncident);
 Console.WriteLine("Created incident {0}", createdIncident?.Id);
 
+if (createdIncident != null)
+{
+    var incident = await incidentsService.GetIncidentAsync(createdIncident.Id);
+    Console.WriteLine("Got newly created incident {0}", incident?.Id);
+}
+
 // get active incidents
 activeIncidents = await incidentsService.GetActiveIncidentsAsync();
 

@@ -43,6 +43,13 @@ public interface IIncidentsService
     /// <param name="incident"></param>
     /// <returns></returns>
     Task<Incident?> CreateIncidentAsync(PostIncident incident);
+    
+    /// <summary>
+    /// Gets an existing incident by its ID
+    /// </summary>
+    /// <param name="incidentId"></param>
+    /// <returns>The incident or null of not found</returns>
+    Task<Incident?> GetIncidentAsync(string incidentId);
 }
 
 /// <summary>
@@ -90,6 +97,7 @@ public class IncidentsService: IIncidentsService
         return incidents ?? new List<Incident>();
     }
 
+    /// <inheritdoc />
     public async Task<List<Incident>> GetIncidentHistoryAsync(string? query = null, int limit = 100, int page = 1)
     {
         var url = $"pages/{_configuration.PageId}/incidents?limit={limit}&page={page}";
@@ -131,6 +139,7 @@ public class IncidentsService: IIncidentsService
         return result.StatusCode;
     }
 
+    /// <inheritdoc />
     public async Task<Incident?> CreateIncidentAsync(PostIncident incident)
     {
         var url = $"pages/{_configuration.PageId}/incidents";
@@ -162,6 +171,22 @@ public class IncidentsService: IIncidentsService
         throw new HttpRequestException(message: $"Failed to create incident: {content}",
             null,
             statusCode: result.StatusCode);
+    }
+
+    /// <inheritdoc />
+    public async Task<Incident?> GetIncidentAsync(string incidentId)
+    {
+        var url = $"pages/{_configuration.PageId}/incidents/{incidentId}";
+        using var client = _httpClientService.GetClient();
+        var result = await client.GetAsync(url);
+        if(!result.IsSuccessStatusCode) return null;
+        var content = await result.Content.ReadAsStringAsync();
+        
+        return JsonSerializer.Deserialize<Incident>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        });
     }
 
     /// <summary>
