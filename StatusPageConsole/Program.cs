@@ -50,7 +50,7 @@ incidentHistory?.ForEach(incident => Console.WriteLine($"{incident.Name} ({incid
 // create a new incident
 var newIncident = new PostIncident
 {
-    Status = PostIncident.StatusEnum.investigating,
+    Status = PostIncident.StatusEnum.identified,
     ImpactOverride = PostIncident.ImpactOverrideEnum.major.ToString(),
     Name = $"New Incident {DateTime.Now:g}",
     Body = "This is a new incident that we created from the StatusPageConsole",
@@ -87,18 +87,17 @@ if (createdIncident != null)
     var patchIncident = new PatchIncident
     {
         Id = createdIncident.Id,
-        Status = Incident.StatusEnum.resolved,
-        Body = "Finally back online!",
-        ImpactOverride = Incident.ImpactOverrideEnum.none,
-        DeliverNotifications = true
+        Status = Incident.StatusEnum.investigating,
+        Body = "We are investigating the issue",
+        DeliverNotifications = false
     };
 
     createdIncident.Components.ForEach(component =>
     {
-        patchIncident.Components[component.Id] = Component.StatusEnum.operational.ToString();    
+        patchIncident.Components[component.Id] = component.Status.ToString();    
     });
     
-    var result = await incidentsService.UpdateIncidentAsync(patchIncident);
-    Console.WriteLine("Update result: {0}", result);
+    var resultIncident = await incidentsService.UpdateIncidentAsync(patchIncident);
+    Console.WriteLine($"Update result: {resultIncident.IncidentUpdates.Count} updates");
 }
 

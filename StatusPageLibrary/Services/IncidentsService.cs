@@ -29,13 +29,13 @@ public interface IIncidentsService
     /// <param name="page">Page offset to fetch</param>
     /// <returns></returns>
     Task<List<Incident>> GetIncidentHistoryAsync(string? query = null, int limit = 100, int page = 1);
-    
+
     /// <summary>
     /// Update an existing incident
     /// </summary>
     /// <param name="incident"></param>
     /// <returns></returns>
-    Task<HttpStatusCode> UpdateIncidentAsync(PatchIncident incident);
+    Task<Incident> UpdateIncidentAsync(PatchIncident incident);
     
     /// <summary>
     /// Create a new incident
@@ -120,7 +120,7 @@ public class IncidentsService: IIncidentsService
     }
 
     /// <inheritdoc />
-    public async Task<HttpStatusCode> UpdateIncidentAsync(PatchIncident incident)
+    public async Task<Incident> UpdateIncidentAsync(PatchIncident incident)
     {
         var url = $"pages/{_configuration.PageId}/incidents/{incident.Id}";
         using var client = _httpClientService.GetClient();
@@ -135,8 +135,17 @@ public class IncidentsService: IIncidentsService
         });
         
         var result = await client.PatchAsync(url, new StringContent(serialized, Encoding.UTF8, "application/json"));
-
-        return result.StatusCode;
+        if(!result.IsSuccessStatusCode) throw new HttpRequestException(message: "Failed to update incident",
+            null,
+            statusCode: result.StatusCode);
+        
+        var content = await result.Content.ReadAsStringAsync();
+        
+        return JsonSerializer.Deserialize<Incident>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        }) ?? throw new JsonException("Failed to deserialize incident");
     }
 
     /// <inheritdoc />
