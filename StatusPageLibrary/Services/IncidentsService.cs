@@ -50,6 +50,16 @@ public interface IIncidentsService
     /// <param name="incidentId"></param>
     /// <returns>The incident or null of not found</returns>
     Task<Incident?> GetIncidentAsync(string incidentId);
+    
+    /// <summary>
+    /// Mark an incident as resolved.
+    /// </summary>
+    /// <param name="incidentId">The id of the incident to mark as resolved.</param>
+    /// <param name="body">The text for the update.</param>
+    /// <param name="setComponentsToOperational">If true, mark each of the incident's components as <see cref="Component.StatusEnum.operational"/>.</param>
+    /// <param name="deliverNotifications">If true, have StatusPage send notifications.</param>
+    /// <returns></returns>
+    Task<Incident?> ResolveIncidentAsync(string incidentId, string body, bool setComponentsToOperational = true, bool deliverNotifications = true);
 }
 
 /// <summary>
@@ -196,6 +206,38 @@ public class IncidentsService: IIncidentsService
             PropertyNameCaseInsensitive = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         });
+    }
+
+    /// <inheritdoc />
+    public async Task<Incident?> ResolveIncidentAsync(string incidentId, string body, 
+        bool setComponentsToOperational = true, bool deliverNotifications = true)
+    {
+        // get the incident to be resolved
+        var incident = await GetIncidentAsync(incidentId);
+        
+        // if the incident is not found, return null
+        if (incident == null) return null;
+        
+        // create a new patch incident
+        var patchIncident = new PatchIncident
+        {
+            Id = incidentId,
+            Status = Incident.StatusEnum.resolved,
+            Body = body,
+            DeliverNotifications = deliverNotifications
+        };
+        
+        // set the components to operational if requested
+        if (setComponentsToOperational)
+        {
+            incident.Components.ForEach(component =>
+            {
+                patchIncident.Components[component.Id] = Component.StatusEnum.operational.ToString();    
+            });
+        }
+        
+        // update the incident
+        return await UpdateIncidentAsync(patchIncident);
     }
 
     /// <summary>

@@ -99,5 +99,9 @@ if (createdIncident != null)
     
     var resultIncident = await incidentsService.UpdateIncidentAsync(patchIncident);
     Console.WriteLine($"Update result: {resultIncident.IncidentUpdates.Count} updates");
+    
+    resultIncident = await incidentsService.ResolveIncidentAsync(patchIncident.Id, "We have resolved the issue.", 
+        true, false);
+    Console.WriteLine($"Updated to resolved result: {resultIncident?.IncidentUpdates.Count} updates");
 }
 
